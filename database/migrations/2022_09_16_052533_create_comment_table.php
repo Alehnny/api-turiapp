@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tourist_place_id');
             $table->unsignedBigInteger('user_id');
             $table->string('description');
-            $table->integer('value');
+            $table->integer('valoration');
             $table->boolean('show');
             $table->timestamps();
             $table->foreign("tourist_place_id")

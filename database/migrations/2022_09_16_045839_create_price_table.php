@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('tourist_place_id');
             $table->string('description');
-            $table->integer('value');
+            $table->double('value', 8, 2);
             $table->timestamps();
         });
     }

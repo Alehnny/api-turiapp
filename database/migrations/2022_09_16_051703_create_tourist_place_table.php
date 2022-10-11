@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('tourist_place_name');
             $table->string('description');
             $table->string('adress');
+            $table->boolean('is_active');
             $table->timestamps();
             $table->foreign("user_id")
                 ->references("id")
@@ -47,6 +48,11 @@ return new class extends Migration
             $table->foreign("tourist_place_id")
                 ->references("id")
                 ->on("tourist_place");
+        });
+        Schema::table('favorite_place', function (Blueprint $table) {
+            $table->foreign("tourist_place_id")
+                ->references("id")
+                ->on("favorite_place");
         });
     }
 
