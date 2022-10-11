@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('town_id');
             $table->string('tourist_place_name');
             $table->string('description');
-            $table->string('adress');
+            $table->string('address');
             $table->boolean('is_active');
             $table->timestamps();
             $table->foreign("user_id")
