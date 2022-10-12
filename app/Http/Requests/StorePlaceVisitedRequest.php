@@ -3,19 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class StorePlaceVisitedRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +16,18 @@ class StorePlaceVisitedRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'tourist_place_id' => 'required|integer',
+            'user_id' => 'required|integer',
+            'visit_date' => 'required|date',
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'message'   => 'Validation errors',
+            'errors'      => $validator->errors()
+        ]));
     }
 }

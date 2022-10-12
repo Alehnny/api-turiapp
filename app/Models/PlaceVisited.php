@@ -48,7 +48,7 @@ class PlaceVisited extends Model
      * 
      * @return The relationship between the user and the post.
      */
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
@@ -58,7 +58,7 @@ class PlaceVisited extends Model
      * 
      * @return The relationship between the two models.
      */
-    public function tourist_places()
+    public function tourist_place()
     {
         return $this->belongsTo(tourist_place::class);
     }

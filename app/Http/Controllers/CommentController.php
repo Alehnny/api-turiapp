@@ -26,7 +26,13 @@ class CommentController extends Controller
      */
     public function store(StoreCommentRequest $request)
     {
-        //
+        $comment = new Comment;
+        $comment->tourist_place_id = $request->tourist_place_id;
+        $comment->user_id = $request->user_id;
+        $comment->description = $request->description;
+        $comment->valoration = $request->valoration;
+
+        return $comment->save() ? responseJson(true, 'Comment add', 202) : responseJson(false, 'error', 200);
     }
 
     /**
@@ -35,9 +41,31 @@ class CommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function show(Comment $comment)
+    public function show(Comment $comment, $id)
     {
-        //
+        return $comment->findOrFail($id);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Comment  $comment
+     * @return \Illuminate\Http\Response
+     */
+    public function showCommentsToUser(Comment $comment, $id)
+    {
+        return $comment->where('user_id', $id)->findOrFail()->get();
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Comment  $comment
+     * @return \Illuminate\Http\Response
+     */
+    public function showCommentsToTouristPlace(Comment $comment, $id)
+    {
+        return $comment->where('tourist_place_id', $id)->findOrFail()->get();
     }
 
     /**
@@ -47,9 +75,13 @@ class CommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCommentRequest $request, Comment $comment)
+    public function update(UpdateCommentRequest $request, Comment $comment, $id)
     {
-        //
+        $comment_ = $comment->findOrFail($id);
+        $comment_->description = $request->description;
+        $comment_->valoration = $request->valoration;
+
+        return $comment_->save() ? responseJson(true, 'Comment update', 200) : responseJson(false, 'error', 200);
     }
 
     /**
@@ -58,8 +90,11 @@ class CommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy(Comment $comment, $id)
     {
-        //
+        $comment_ = $comment->findOrFail($id);
+        $comment_->delete();
+
+        return responseJson(true, 'Item delete', 200);
     }
 }

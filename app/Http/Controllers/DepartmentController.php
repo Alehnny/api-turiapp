@@ -15,7 +15,9 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+        $departments = Department::all();
+
+        return $departments;
     }
 
     /**
@@ -35,9 +37,20 @@ class DepartmentController extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function show(Department $department)
+    public function show(Department $department, $id)
     {
-        //
+        return $department->findOrFail($id);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Department  $department
+     * @return \Illuminate\Http\Response
+     */
+    public function showTowns(Department $department, $id)
+    {
+        return $department->findOrFail($id)->towns()->get();
     }
 
     /**

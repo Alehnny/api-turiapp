@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Town;
 use App\Http\Requests\StoreTownRequest;
 use App\Http\Requests\UpdateTownRequest;
+use \Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TownController extends Controller
 {
@@ -15,7 +16,9 @@ class TownController extends Controller
      */
     public function index()
     {
-        //
+        $towns = Town::all();
+
+        return $towns;
     }
 
     /**
@@ -35,9 +38,20 @@ class TownController extends Controller
      * @param  \App\Models\Town  $town
      * @return \Illuminate\Http\Response
      */
-    public function show(Town $town)
+    public function show(Town $town, $id)
     {
-        //
+        return $town->findOrFail($id);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Town  $town
+     * @return \Illuminate\Http\Response
+     */
+    public function showWithDepartament(Town $town, $id)
+    {
+        return $town->where('department_id', $id)->get();
     }
 
     /**

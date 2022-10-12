@@ -26,7 +26,12 @@ class PlaceVisitedController extends Controller
      */
     public function store(StorePlaceVisitedRequest $request)
     {
-        //
+        $placeVisited = new PlaceVisited;
+        $placeVisited->tourist_place_id = $request->tourist_place_id;
+        $placeVisited->user_id = $request->user_id;
+        $placeVisited->visit_date = $request->visit_date;
+
+        return $placeVisited->save() ? responseJson(true, 'Place visited add', 202) : responseJson(false, 'error', 200);
     }
 
     /**
@@ -38,6 +43,17 @@ class PlaceVisitedController extends Controller
     public function show(PlaceVisited $placeVisited)
     {
         //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\PlaceVisited  $placeVisited
+     * @return \Illuminate\Http\Response
+     */
+    public function showWithUser(PlaceVisited $placeVisited, $id)
+    {
+        return $placeVisited->where('user_id', $id)->findOrFail()->get();
     }
 
     /**

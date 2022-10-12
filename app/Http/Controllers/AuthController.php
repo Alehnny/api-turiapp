@@ -18,12 +18,16 @@ class AuthController extends Controller
      */
     public function createUser(Request $request)
     {
+        //dd( $request);
         try {
             //Validated
             $validateUser = Validator::make(
                 $request->all(),
                 [
+                    'first_name' => 'required',
+                    'last_name' => 'required',
                     'email' => 'required|email|unique:user,email',
+                    'user' => 'required|unique:user,user',
                     'password' => 'required'
                 ]
             );
@@ -40,6 +44,7 @@ class AuthController extends Controller
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
+                'user' => $request->user,
                 'password' => Hash::make($request->password),
                 'is_active' => 1,
                 'profile_picture' => '',

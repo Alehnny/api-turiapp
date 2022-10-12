@@ -26,7 +26,12 @@ class PriceController extends Controller
      */
     public function store(StorePriceRequest $request)
     {
-        //
+        $price = new Price;
+        $price->tourist_place_id = $request->tourist_place_id;
+        $price->description = $request->description;
+        $price->value = $request->value;
+
+        return $price->save() ? responseJson(true, 'Price add', 202) : responseJson(false, 'error', 200);
     }
 
     /**
@@ -41,15 +46,30 @@ class PriceController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Price  $price
+     * @return \Illuminate\Http\Response
+     */
+    public function showWithTouristPlace(Price $price, $id)
+    {
+        return $price->where('tourist_place_id', $id)->findOrFail()->get();
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdatePriceRequest  $request
      * @param  \App\Models\Price  $price
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePriceRequest $request, Price $price)
+    public function update(UpdatePriceRequest $request, Price $price, $id)
     {
-        //
+        $price_ = $price->findOrFail($id);
+        $price_->description = $request->description;
+        $price_->value = $request->value;
+
+        return $price_->save() ? responseJson(true, 'Comment update', 200) : responseJson(false, 'error', 200);
     }
 
     /**
